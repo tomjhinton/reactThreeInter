@@ -4617,6 +4617,11 @@ performance-now@^2.1.0:
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
 
+perlin@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/perlin/-/perlin-1.0.0.tgz#3e53ebf5d6555a277c4586772338386782d9f52b"
+  integrity sha1-PlPr9dZVWid8RYZ3Izg4Z4LZ9Ss=
+
 picomatch@^2.0.4:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.1.1.tgz#ecdfbea7704adb5fe6fb47f9866c4c0e15e905c5"

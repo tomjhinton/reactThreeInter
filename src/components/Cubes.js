@@ -1,6 +1,7 @@
 import React from 'react'
 const THREE = require('three')
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import {noise} from 'perlin'
 
 class Cubes extends React.Component {
 
@@ -42,15 +43,18 @@ class Cubes extends React.Component {
       y: 0
     }
     console.log(mouse)
+    const cubes = []
     function cubeCreate(x, y, z){
-      var boxGeo = new THREE.BoxGeometry(Math.random()*18, Math.random()*18, Math.random()*18)
-      const materialColor = new THREE.MeshPhongMaterial( { color: `rgba(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},1)`, specular: `rgba(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},1)` , shininess: 100, side: THREE.DoubleSide, opacity: 0.5,
-      transparent: true } )
+      var boxGeo = new THREE.BoxGeometry(1, 1, 1,10,10,10)
+      const materialColor = new THREE.MeshPhongMaterial( { color: `rgba(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},1)`, specular: `rgba(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},1)` , shininess: 100, side: THREE.DoubleSide, opacity: 0.1,
+        transparent: true } )
       const  box = new THREE.Mesh(boxGeo, materialColor)
-      box.position.x = Math.random()*80
-      box.position.y = Math.random()*80
-      box.position.z = Math.random()*80
+      box.position.x = Math.random()*18
+      box.position.y = Math.random()*18
+      box.position.z = Math.random()*18
 
+
+      cubes.push(box)
       scene.add(box)
 
     }
@@ -74,8 +78,8 @@ class Cubes extends React.Component {
     light.castShadow = true
     scene.add(light)
 
-    var Alight = new THREE.AmbientLight( 0x404040 ); // soft white light
-    scene.add( Alight );
+    var Alight = new THREE.AmbientLight( 0x404040 ) // soft white light
+    scene.add( Alight )
 
     console.log(scene)
 
@@ -102,12 +106,15 @@ class Cubes extends React.Component {
 
 
 
-    const geometry = new THREE.BoxGeometry( 1, 1, 1 )
+    const geometry = new THREE.BoxGeometry( 1, 1, 1, 10,20, 10 )
 
     const cube = new THREE.Mesh(geometry, material)
     console.log(cube)
+    cube.geometry.computeVertexNormals()
+    cube.geometry.normalsNeedUpdate = true
+    cube.geometry.verticesNeedUpdate = true
 
-    scene.add(cube)
+    //scene.add(cube)
 
     function animate() {
       scene.children.map(x=> {
@@ -115,8 +122,30 @@ class Cubes extends React.Component {
         x.rotation.x += scene.children.indexOf(x)/5000
         x.rotation.y += scene.children.indexOf(x)/5000
         x.rotation.z += scene.children.indexOf(x)/5000
+        x.scale.x+=0.1
+        x.scale.y+=0.1
+        x.scale.z+=0.1
 
 
+
+
+
+      })
+
+      cubes.map(x=> {
+
+
+
+        var time = performance.now() * 0.0005
+        var k = 1
+        for (var i = 0; i < x.geometry.vertices.length; i++) {
+          var p = x.geometry.vertices[i]
+          p.normalize().multiplyScalar(1 + 0.4 * noise.perlin3(p.x * k + time, p.y * k, p.z * k))
+        }
+
+        x.geometry.computeVertexNormals()
+        x.geometry.normalsNeedUpdate = true
+        x.geometry.verticesNeedUpdate = true
 
       })
       raycaster.setFromCamera( mouse, camera )
