@@ -1,8 +1,6 @@
 import React from 'react'
 const THREE = require('three')
-
-
-
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
 class Cubes extends React.Component {
 
@@ -36,9 +34,14 @@ class Cubes extends React.Component {
 
 
   draw(){
-    var raycaster = new THREE.Raycaster()
-    var mouse = new THREE.Vector2()
 
+
+    var raycaster = new THREE.Raycaster()
+    var mouse = {
+      x: -1000,
+      y: 0
+    }
+    console.log(mouse)
     function cubeCreate(){
       var boxGeo = new THREE.BoxGeometry(Math.random()*18, Math.random()*18, Math.random()*18)
       const materialColor = new THREE.MeshPhongMaterial( { color: `rgba(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},1)`, specular: `rgba(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},1)` , shininess: 100, side: THREE.DoubleSide } )
@@ -54,8 +57,8 @@ class Cubes extends React.Component {
 
     function onMouseMove( event ) {
 
-  // calculate mouse position in normalized device coordinates
-  // (-1 to +1) for both components
+      // calculate mouse position in normalized device coordinates
+      // (-1 to +1) for both components
       //cubeCreate()
       mouse.x = ( event.offsetX / 900 ) * 2 - 1
       mouse.y = - ( event.offsetY / 180 ) * 2 + 1
@@ -69,14 +72,17 @@ class Cubes extends React.Component {
     light.castShadow = true
     scene.add(light)
 
+    var Alight = new THREE.AmbientLight( 0x404040 ); // soft white light
+    scene.add( Alight );
+
     console.log(scene)
 
     const renderer = new THREE.WebGLRenderer()
     renderer.setSize( 900, 280)
     const display = document.getElementById('cubes')
     display.appendChild( renderer.domElement )
-    //var controls = new OrbitControls( camera, renderer.domElement );
-    for(let i =0;i<100;i++){
+
+    for(let i =0;i<200;i++){
       cubeCreate()
     }
 
@@ -86,6 +92,10 @@ class Cubes extends React.Component {
     camera.position.x = 40
     camera.position.y = 20
 
+    var controls = new OrbitControls( camera, renderer.domElement )
+
+    controls.update()
+    console.log(controls)
     const material = new THREE.MeshPhongMaterial( { color: 0x000FF0, specular: 0xf22fff , shininess: 100, side: THREE.DoubleSide } )
 
 
@@ -107,21 +117,23 @@ class Cubes extends React.Component {
 
 
       })
-      raycaster.setFromCamera( mouse, camera );
+      raycaster.setFromCamera( mouse, camera )
 
-	// calculate objects intersecting the picking ray
-	   var intersects = raycaster.intersectObjects( scene.children )
+      // calculate objects intersecting the picking ray
+      const intersects = raycaster.intersectObjects( scene.children, true )
 
-	for ( var i = 0; i < intersects.length; i++ ) {
-      console.log(intersects)
-		// intersects[ 0 ].object.material.color.set( `rgba(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},1)` );
-    //
-    // intersects[0].object.position.x +=10
+      for ( var i = 0; i < intersects.length; i++ ) {
+        console.log(intersects)
 
-	}
+        intersects[ i ].object.material.color.set( 'red' )
+        //
+        // intersects[0].object.position.x +=10
+
+      }
 
 
       /* render scene and camera */
+      controls.update()
       renderer.render(scene,camera)
       requestAnimationFrame(animate)
     }
