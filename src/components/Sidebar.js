@@ -39,7 +39,7 @@ class Sidebar extends React.Component {
 
     return(
       <div className='sidebar'>
-        Mouse movement triggered Three animations
+         Three animations
       </div>
     )
   }
