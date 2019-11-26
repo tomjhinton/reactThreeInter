@@ -36,28 +36,23 @@ class Grid extends React.Component {
 
 
   draw(){
+    const geometryG = new THREE.Geometry(),
+      geometryG2 = new THREE.Geometry(),
+      materialG = new THREE.LineBasicMaterial({
+        color: 'green'
+      }),
+      materialG2 = new THREE.LineBasicMaterial({
+        color: 'cyan'
+      })
     var raycaster = new THREE.Raycaster()
     var mouse = new THREE.Vector2()
 
-    function torusCreate(){
-      var boxGeo = new THREE.TorusGeometry(Math.random()*18+10, 2, Math.random()*80, 10)
-      const materialColor = new THREE.MeshPhongMaterial( { color: `rgba(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},1)`, specular: `rgba(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},1)` , shininess: 100, side: THREE.DoubleSide, opacity: 0.5,
-      transparent: true } )
-      const  box = new THREE.Mesh(boxGeo, materialColor)
-      box.position.x = Math.random()*85
-      box.position.y = Math.random()*35
-      box.position.z = Math.random()*45
-      scene.add(box)
 
-
-
-
-    }
 
     function onMouseMove( event ) {
       //console.log(cube.position.x)
-  // calculate mouse position in normalized device coordinates
-  // (-1 to +1) for both components
+    // calculate mouse position in normalized device coordinates
+    // (-1 to +1) for both components
       //
       mouse.x = ( event.offsetX / 900 ) * 2 - 1
       mouse.y = - ( event.offsetY / 180 ) * 2 + 1
@@ -65,9 +60,45 @@ class Grid extends React.Component {
     }
     const scene = new THREE.Scene()
 
-    for(let i=0;i<100;i++){
-      torusCreate()
+
+    const size = 4000,
+      size2  = 5000,
+      steps = 40,
+      steps2 = 60
+
+    for (let i = -size; i <= size; i += steps) {
+      //draw lines one way
+      geometryG.vertices.push(new THREE.Vector3(-size, -0.04, i))
+      geometryG.vertices.push(new THREE.Vector3(size, -0.04, i))
+
+      //draw lines the other way
+      geometryG.vertices.push(new THREE.Vector3(i, -0.04, -size))
+      geometryG.vertices.push(new THREE.Vector3(i, -0.04, size))
     }
+
+    for (let j = -size; j <= size; j += steps2) {
+      //draw lines one way
+      geometryG2.vertices.push(new THREE.Vector3(-size2, -0.04, j))
+      geometryG2.vertices.push(new THREE.Vector3(size2, -0.04, j))
+
+      //draw lines the other way
+      geometryG2.vertices.push(new THREE.Vector3(j, -0.04, -size2))
+      geometryG2.vertices.push(new THREE.Vector3(j, -0.04, size2))
+    }
+
+    const line = new THREE.Line(geometryG, materialG, THREE.LineSegments)
+    const line2 = new THREE.Line(geometryG2, materialG2, THREE.LineSegments)
+
+    line.position.y = - 200
+    line2.position.y =  220
+    line.rotation.z =180
+    line2.rotation.z = -180
+
+
+
+
+    scene.add(line, line2)
+
 
     const light = new THREE.DirectionalLight( 0xffffff )
     light.position.set( 40, 25, 10 )
@@ -89,16 +120,7 @@ class Grid extends React.Component {
     camera.position.x = 40
     camera.position.y = 20
 
-    const material = new THREE.MeshPhongMaterial( { color: 0x000FF0, specular: 0xf22fff , shininess: 100, side: THREE.DoubleSide } )
 
-
-
-    const geometry = new THREE.BoxGeometry( 1, 1, 1 )
-
-    const cube = new THREE.Mesh(geometry, material)
-    console.log(cube)
-
-    //  scene.add(cube)
     var spotLight = new THREE.SpotLight( 0xffffff )
     spotLight.position.set( 100, 1000, 100 )
 
@@ -116,9 +138,8 @@ class Grid extends React.Component {
     function animate() {
       scene.children.map(x=> {
 
-        x.rotation.x += scene.children.indexOf(x)/5000
-        x.rotation.y += scene.children.indexOf(x)/5000
-        x.rotation.z += scene.children.indexOf(x)/5000
+        x.rotation.z += 0.01
+
 
 
 

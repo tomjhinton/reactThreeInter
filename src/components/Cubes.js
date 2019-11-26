@@ -42,7 +42,7 @@ class Cubes extends React.Component {
       x: -1000,
       y: 0
     }
-    console.log(mouse)
+    //console.log(mouse)
     const cubes = []
     function cubeCreate(x, y, z){
       var boxGeo = new THREE.BoxGeometry(1, 1, 1,10,10,10)
@@ -81,7 +81,7 @@ class Cubes extends React.Component {
     var Alight = new THREE.AmbientLight( 0x404040 ) // soft white light
     scene.add( Alight )
 
-    console.log(scene)
+    //console.log(scene)
 
     const renderer = new THREE.WebGLRenderer()
     renderer.setSize( 900, 280)
@@ -101,7 +101,7 @@ class Cubes extends React.Component {
     var controls = new OrbitControls( camera, renderer.domElement )
 
     controls.update()
-    console.log(controls)
+    //console.log(controls)
     const material = new THREE.MeshPhongMaterial( { color: 0x000FF0, specular: 0xf22fff , shininess: 100, side: THREE.DoubleSide } )
 
 
@@ -109,7 +109,7 @@ class Cubes extends React.Component {
     const geometry = new THREE.BoxGeometry( 1, 1, 1, 10,20, 10 )
 
     const cube = new THREE.Mesh(geometry, material)
-    console.log(cube)
+    //console.log(cube)
     cube.geometry.computeVertexNormals()
     cube.geometry.normalsNeedUpdate = true
     cube.geometry.verticesNeedUpdate = true
@@ -122,9 +122,12 @@ class Cubes extends React.Component {
         x.rotation.x += scene.children.indexOf(x)/5000
         x.rotation.y += scene.children.indexOf(x)/5000
         x.rotation.z += scene.children.indexOf(x)/5000
-        x.scale.x+=0.1
-        x.scale.y+=0.1
-        x.scale.z+=0.1
+        console.log(x.scale.x)
+        if(x.scale.x < 50){
+          x.scale.x+=0.1
+          x.scale.y+=0.1
+          x.scale.z+=0.1
+        }
 
 
 
@@ -154,7 +157,7 @@ class Cubes extends React.Component {
       const intersects = raycaster.intersectObjects( scene.children, true )
 
       for ( var i = 0; i < intersects.length; i++ ) {
-        console.log(intersects)
+        //console.log(intersects)
 
         //intersects[ i ].object.material.color.set( 'red' )
         //
