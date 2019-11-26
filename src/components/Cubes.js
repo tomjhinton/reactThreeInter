@@ -122,7 +122,7 @@ class Cubes extends React.Component {
         x.rotation.x += scene.children.indexOf(x)/5000
         x.rotation.y += scene.children.indexOf(x)/5000
         x.rotation.z += scene.children.indexOf(x)/5000
-        console.log(x.scale.x)
+        //console.log(x.scale.x)
         if(x.scale.x < 50){
           x.scale.x+=0.1
           x.scale.y+=0.1
