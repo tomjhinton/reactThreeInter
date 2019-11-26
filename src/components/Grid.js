@@ -41,7 +41,8 @@ class Grid extends React.Component {
 
     function torusCreate(){
       var boxGeo = new THREE.TorusGeometry(Math.random()*18+10, 2, Math.random()*80, 10)
-      const materialColor = new THREE.MeshPhongMaterial( { color: `rgba(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},1)`, specular: `rgba(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},1)` , shininess: 100, side: THREE.DoubleSide } )
+      const materialColor = new THREE.MeshPhongMaterial( { color: `rgba(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},1)`, specular: `rgba(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},1)` , shininess: 100, side: THREE.DoubleSide, opacity: 0.5,
+      transparent: true } )
       const  box = new THREE.Mesh(boxGeo, materialColor)
       box.position.x = Math.random()*85
       box.position.y = Math.random()*35

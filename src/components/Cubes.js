@@ -42,13 +42,15 @@ class Cubes extends React.Component {
       y: 0
     }
     console.log(mouse)
-    function cubeCreate(){
+    function cubeCreate(x, y, z){
       var boxGeo = new THREE.BoxGeometry(Math.random()*18, Math.random()*18, Math.random()*18)
-      const materialColor = new THREE.MeshPhongMaterial( { color: `rgba(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},1)`, specular: `rgba(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},1)` , shininess: 100, side: THREE.DoubleSide } )
+      const materialColor = new THREE.MeshPhongMaterial( { color: `rgba(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},1)`, specular: `rgba(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},1)` , shininess: 100, side: THREE.DoubleSide, opacity: 0.5,
+      transparent: true } )
       const  box = new THREE.Mesh(boxGeo, materialColor)
-      box.position.x = Math.random()*85
-      box.position.y = Math.random()*35
-      box.position.z = Math.random()*45
+      box.position.x = Math.random()*80
+      box.position.y = Math.random()*80
+      box.position.z = Math.random()*80
+
       scene.add(box)
 
     }
@@ -83,7 +85,7 @@ class Cubes extends React.Component {
     display.appendChild( renderer.domElement )
 
     for(let i =0;i<200;i++){
-      cubeCreate()
+      cubeCreate(i, i, i)
     }
 
     const camera = new THREE.PerspectiveCamera( 45, window.innerWidth/window.innerHeight, 0.1, 3000 )
@@ -125,7 +127,7 @@ class Cubes extends React.Component {
       for ( var i = 0; i < intersects.length; i++ ) {
         console.log(intersects)
 
-        intersects[ i ].object.material.color.set( 'red' )
+        //intersects[ i ].object.material.color.set( 'red' )
         //
         // intersects[0].object.position.x +=10
 
