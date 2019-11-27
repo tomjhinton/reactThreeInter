@@ -111,37 +111,46 @@ class Param extends React.Component {
 
       target.set(x, y, z).multiplyScalar(0.75)
     }
+    const params = []
+    function paramCreate(){
+      var paraGeometry = new THREE.ParametricGeometry(klein, 18, 18)
+      const material = new THREE.MeshPhongMaterial( { color: `rgba(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},1)`, specular: `rgba(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},1)` , shininess: 10, side: THREE.DoubleSide, opacity: 0.5,
+        transparent: true } )
+      var paraMesh = new THREE.Mesh(paraGeometry, material)
+      paraMesh.position.set(0, 0, -10)
 
-    var paraGeometry = new THREE.ParametricGeometry(klein, 8, 18)
-    const material = new THREE.MeshPhongMaterial( { color: `rgba(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},1)`, specular: `rgba(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},1)` , shininess: 100, side: THREE.DoubleSide, opacity: 0.5,
-      transparent: true } )
-    var paraMesh = new THREE.Mesh(paraGeometry, material)
-    paraMesh.position.set(0, 0, -10)
+      paraMesh.scale.x = 40
+      paraMesh.scale.y = 40
+      paraMesh.scale.z = 4
+      paraMesh.position.z = - Math.random()*18
+      scene.add(paraMesh)
+      params.push(paraMesh)
 
-    paraMesh.scale.x = 40
-    paraMesh.scale.y = 40
-    paraMesh.scale.z = 4
-    scene.add(paraMesh)
+
+    }
+    for(let i=0;i<15;i++){
+      paramCreate()
+    }
+
     function animate() {
 
       const time = performance.now() * 0.0005
-      //paraMesh.rotation.x += 0.1
-      paraMesh.rotation.x *= Math.sin(time)
-      //      paraMesh.scale.y += 0.1
-      //        paraMesh.scale.z += 0.1
+
+      params.map(paraMesh=>{
 
 
 
-      var k = 9
-      for (var i = 0; i < paraMesh.geometry.vertices.length; i++) {
-        var p = paraMesh.geometry.vertices[i]
-        p.normalize().multiplyScalar(1 + 0.8 * noise.perlin3(p.x * k + time, p.y * k, p.z * k))
-      }
+        paraMesh.rotation.x  += params.indexOf(paraMesh)/1000
+        var k = 20
+        for (var i = 0; i < paraMesh.geometry.vertices.length; i++) {
+          var p = paraMesh.geometry.vertices[i]
+          p.normalize().multiplyScalar(1 + 0.8 * noise.perlin3(p.x * k + time, p.y * k, p.z * k))
+        }
 
-      paraMesh.geometry.computeVertexNormals()
-      paraMesh.geometry.normalsNeedUpdate = true
-      paraMesh.geometry.verticesNeedUpdate = true
-
+        paraMesh.geometry.computeVertexNormals()
+        paraMesh.geometry.normalsNeedUpdate = true
+        paraMesh.geometry.verticesNeedUpdate = true
+      })
       //scene.rotation.x +=0.01
       /* render scene and camera */
       renderer.render(scene,camera)
