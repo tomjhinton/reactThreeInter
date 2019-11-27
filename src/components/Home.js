@@ -3,6 +3,7 @@ import React from 'react'
 import Cubes from './Cubes'
 import Grid from './Grid'
 import NoisePlane from './NoisePlane'
+import Param from './Param'
 
 
 
@@ -21,6 +22,7 @@ const Home = () => {
             <div className="container">
               <Cubes />
               <NoisePlane />
+              <Param />
               <Grid />
             </div>
           </div>
