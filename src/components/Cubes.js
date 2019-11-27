@@ -101,20 +101,10 @@ class Cubes extends React.Component {
     var controls = new OrbitControls( camera, renderer.domElement )
 
     controls.update()
-    //console.log(controls)
-    const material = new THREE.MeshPhongMaterial( { color: 0x000FF0, specular: 0xf22fff , shininess: 100, side: THREE.DoubleSide } )
 
 
 
-    const geometry = new THREE.BoxGeometry( 1, 1, 1, 10,20, 10 )
 
-    const cube = new THREE.Mesh(geometry, material)
-    //console.log(cube)
-    cube.geometry.computeVertexNormals()
-    cube.geometry.normalsNeedUpdate = true
-    cube.geometry.verticesNeedUpdate = true
-
-    //scene.add(cube)
 
     function animate() {
       scene.children.map(x=> {
@@ -122,7 +112,6 @@ class Cubes extends React.Component {
         x.rotation.x += scene.children.indexOf(x)/5000
         x.rotation.y += scene.children.indexOf(x)/5000
         x.rotation.z += scene.children.indexOf(x)/5000
-        //console.log(x.scale.x)
         if(x.scale.x < 50){
           x.scale.x+=0.1
           x.scale.y+=0.1
@@ -165,7 +154,7 @@ class Cubes extends React.Component {
 
       }
 
-
+      
       /* render scene and camera */
       controls.update()
       renderer.render(scene,camera)
