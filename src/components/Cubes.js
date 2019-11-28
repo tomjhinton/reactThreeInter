@@ -154,7 +154,7 @@ class Cubes extends React.Component {
 
       }
 
-      
+
       /* render scene and camera */
       controls.update()
       renderer.render(scene,camera)

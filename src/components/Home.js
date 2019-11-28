@@ -4,6 +4,7 @@ import Cubes from './Cubes'
 import Grid from './Grid'
 import NoisePlane from './NoisePlane'
 import Param from './Param'
+import CubeMorph from './CubeMorph'
 
 
 
@@ -23,6 +24,7 @@ const Home = () => {
               <Cubes />
               <NoisePlane />
               <Param />
+              
               <Grid />
             </div>
           </div>
